@@ -6,7 +6,7 @@ export const sendToken = (user, statusCode, res, message) => {
   const payload = {user:user.name,email:user.email,role:user.role}
 
   const token = jwt.sign(payload, "bO7ElGE70z2gNaJvh2dckVKvKZw", {
-    expiresIn: '1h'
+    expiresIn: '2h'
   });
 
  
