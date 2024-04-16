@@ -10,7 +10,7 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, "bO7ElGE70z2gNaJvh2dckVKvKZw" );
     const user = await User.findById(decoded.id);
 
     if (!user) {
