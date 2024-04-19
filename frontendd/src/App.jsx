@@ -16,14 +16,16 @@ import MyApplications from "./components/Application/MyApplications";
 import PostJob from "./components/Job/PostJob";
 import NotFound from "./components/NotFound/NotFound";
 import MyJobs from "./components/Job/MyJobs";
+import Cookies from 'js-cookie';
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
+  let cookieValue = Cookies.get("token");
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://finalweb-2.onrender.com/api/v1/user/getuser",
+          `${import.meta.env.VITE_BASE_URL}/api/v1/user/getuser`,
           {
             withCredentials: true,
           }
@@ -34,8 +36,10 @@ const App = () => {
         setIsAuthorized(false);
       }
     };
-    fetchUser();
-  }, [isAuthorized]);
+    if(cookieValue){
+      fetchUser();
+    }
+  }, [isAuthorized, cookieValue]);
 
   return (
     <>
