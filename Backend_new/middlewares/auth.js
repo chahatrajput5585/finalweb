@@ -3,17 +3,19 @@ import { catchAsyncErrors } from "./catchAsyncError.js";
 import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 
-export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
-  if (!token) {
-    return next(new ErrorHandler("User Not Authorized", 401));
+const isAuthenticated = async (req, res, next) => {
+  const isAuthenticated = req.headers.authorization;
+  if (!isAuthenticated || !isAuthenticated.startsWith("Bearer")) {
+    next("Auth Failed");
   }
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-  req.user = await User.findById(decoded.id);
-
-  next();
-});
-
+  const token = isAuthenticated.split(" ")[1];
+  try {
+    const payload = JWT.verify(token, process.env.JWT_SECRET);
+    req.user = { userId: payload.userId };
+    next();
+  } catch (error) {
+    next("Auth Failed");
+  }
+};
 export default isAuthenticated;
 
