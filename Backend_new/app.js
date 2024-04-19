@@ -14,7 +14,7 @@ dotenv.config({path: "./config/config.env"});
 
 app.use(
     cors({
-      origin: ["https://jazzy-salamander-48bd97.netlify.app"],
+      origin: ["https://jazzy-salamander-48bd97.netlify.app","https://6622ddcc39bba636e8d6f8ea--comfy-maamoul-04710f.netlify.app"],
       method: ["GET", "POST", "DELETE", "PUT"],
       credentials: true,
     })
