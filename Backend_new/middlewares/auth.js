@@ -4,19 +4,15 @@ import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
-
-  const authHeader = req.headers.authorization;
-  const token = authHeader.split(" ")[1];
   const { token } = req.cookies;
   if (!token) {
     return next(new ErrorHandler("User Not Authorized", 401));
   }
-  const payload = JWT.verify(token, process.env.JWT_SECRET);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-  
-  req.user = { id: payload.id };
+  req.user = await User.findById(decoded.id);
+
   next();
 });
 
-export default isAuthenticated;
 
