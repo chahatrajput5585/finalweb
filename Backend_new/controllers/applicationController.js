@@ -8,7 +8,7 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
   if (role === "Employer") {
     return next(
-      new ErrorHandler("Employer not allowed to access this resource.", 400)
+      new ErrorHandler("shopkeeper not allowed to access this resource.", 400)
     );
   }
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -39,11 +39,11 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     role: "Job Seeker",
   };
   if (!jobId) {
-    return next(new ErrorHandler("Job not found!", 404));
+    return next(new ErrorHandler("shop not found!", 404));
   }
   const jobDetails = await Job.findById(jobId);
   if (!jobDetails) {
-    return next(new ErrorHandler("Job not found!", 404));
+    return next(new ErrorHandler("shop not found!", 404));
   }
 
   const employerID = {
@@ -87,7 +87,7 @@ export const employerGetAllApplications = catchAsyncErrors(
     const { role } = req.user;
     if (role === "Job Seeker") {
       return next(
-        new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+        new ErrorHandler("employer not allowed to access this resource.", 400)
       );
     }
     const { _id } = req.user;
@@ -104,7 +104,7 @@ export const jobseekerGetAllApplications = catchAsyncErrors(
     const { role } = req.user;
     if (role === "Employer") {
       return next(
-        new ErrorHandler("Employer not allowed to access this resource.", 400)
+        new ErrorHandler("shopkeeper not allowed to access this resource.", 400)
       );
     }
     const { _id } = req.user;
@@ -121,7 +121,7 @@ export const jobseekerDeleteApplication = catchAsyncErrors(
     const { role } = req.user;
     if (role === "Employer") {
       return next(
-        new ErrorHandler("Employer not allowed to access this resource.", 400)
+        new ErrorHandler("shopkeeper not allowed to access this resource.", 400)
       );
     }
     const { id } = req.params;
